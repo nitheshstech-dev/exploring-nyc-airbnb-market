@@ -1,121 +1,180 @@
-# Exploring the NYC Airbnb Market
+# Exploring the Albany Airbnb Market
 
-> A reproducible data-importing, cleaning and exploratory-analysis project using NYC Airbnb listing data from Inside Airbnb.
+> End-to-end data importing, cleaning, exploratory analysis and visualization of Airbnb listings in Albany, New York.
 
-## Objective
+## Project Overview
 
-Analyze the structure of the NYC short-term rental market by cleaning listing data and exploring listing distribution, room-type mix, nightly price patterns, availability, review activity and host listing concentration.
+This project analyzes the Albany Airbnb market using listing, calendar, review and neighbourhood data. The workflow demonstrates a practical Data Analyst process: ingest raw data, validate data quality, clean and transform fields, perform exploratory analysis, create visualizations, and communicate evidence-based findings.
 
-## Data Source
+## Business Questions
 
-This project uses the **Inside Airbnb** NYC listings dataset. Inside Airbnb publishes city-level Airbnb data for research and analysis and provides New York City listings, calendar, reviews and neighbourhood resources.
+- How many Airbnb listings are available in Albany?
+- Which neighbourhoods have the most listings?
+- Which room types dominate the market?
+- How do nightly prices vary by neighbourhood and room type?
+- Which listings have the highest availability?
+- How active are listings based on reviews?
+- How concentrated are listings among hosts?
+- What relationships exist between price, reviews and availability?
+
+## Data Sources
+
+The project uses Airbnb data published through **Inside Airbnb**. The downloaded files used for this project are Albany, New York data, including listings, calendar, reviews and neighbourhood resources.
 
 Source: https://insideairbnb.com/get-the-data/
 
-The source data is periodically updated, so this repository does not commit a fabricated dataset. Download the NYC `listings.csv` export and place it in `data/listings.csv`.
+Raw source files are kept separate from processed outputs. If redistribution of the original files is not appropriate, keep them locally and commit only the data dictionary and analysis outputs.
 
-## Workflow
+## Analytical Workflow
 
 ```text
-Raw CSV
-  ↓
-Data Import
-  ↓
+Raw Airbnb Data
+      ↓
+Data Import & Profiling
+      ↓
 Data Quality Checks
-  ↓
-Type Conversion & Standardization
-  ↓
-Duplicate / Invalid Record Handling
-  ↓
+      ↓
+Cleaning & Type Conversion
+      ↓
+Feature Preparation
+      ↓
 Exploratory Data Analysis
-  ↓
-Visualization
-  ↓
-Business Interpretation
+      ↓
+Visualization / Dashboard
+      ↓
+Business Insights
 ```
+
+## Dataset Structure
+
+### Listings
+
+Core listing-level fields include listing ID, host information, neighbourhood, coordinates, room type, price, minimum nights, reviews, review recency, host listing count and annual availability.
+
+### Calendar
+
+Daily availability and price information can be used for deeper availability and pricing analysis.
+
+### Reviews
+
+Review-level records support review-volume and activity analysis.
+
+### Neighbourhoods
+
+Neighbourhood labels and geographic boundaries support location-based analysis.
 
 ## Data Cleaning
 
-The cleaning pipeline standardizes text fields, converts numeric columns safely, parses review dates, removes duplicate listing IDs, removes invalid/non-positive prices, removes invalid minimum-night values, validates availability values and validates latitude/longitude ranges while keeping the raw dataset unchanged.
+The cleaning process is designed to:
 
-Run:
+- Standardize text fields
+- Convert numeric columns safely
+- Parse review dates
+- Remove duplicate listing IDs
+- Remove invalid or non-positive prices
+- Validate minimum-night values
+- Validate annual availability from 0–365 days
+- Validate latitude and longitude ranges
+- Preserve the original raw dataset
 
-```bash
-python src/data_cleaning.py
-```
+## Analysis Areas
 
-## Exploratory Analysis
+### Market Overview
 
-Run:
+- Total listings
+- Listing distribution by neighbourhood
+- Room-type mix
+- Average and median nightly price
 
-```bash
-python src/eda_analysis.py
-```
+### Pricing
 
-The analysis produces summary tables and charts covering:
+- Price distribution
+- Price by room type
+- Price by neighbourhood
+- Outlier analysis
 
-1. Listing counts by borough
-2. Room-type distribution
-3. Average and median prices
-4. Price distribution
-5. Availability patterns
-6. Host listing concentration
-7. Relationships between price, reviews and availability
+### Availability
 
-## SQL Analysis
+- Average availability
+- High-availability listings
+- Availability by neighbourhood and room type
 
-`sql/analysis_queries.sql` provides SQL versions of the main analytical questions for a database workflow.
+### Reviews
 
-## Repository Structure
+- Review counts
+- Review activity by neighbourhood
+- Reviews versus price / availability
 
-```text
-exploring-nyc-airbnb-market/
-├── data/
-│   └── README.md
-├── notebooks/
-│   └── nyc_airbnb_analysis.md
-├── src/
-│   ├── data_cleaning.py
-│   └── eda_analysis.py
-├── sql/
-│   └── analysis_queries.sql
-├── visualizations/
-├── docs/
-├── requirements.txt
-├── .gitignore
-├── LICENSE
-└── README.md
-```
+### Host Analysis
+
+- Hosts with multiple listings
+- Listing concentration
+- Professional versus single-listing host patterns
+
+## Visualizations
+
+The completed analysis should include:
+
+- Listings by neighbourhood
+- Room-type distribution
+- Average price by room type
+- Median price by neighbourhood
+- Price distribution
+- Availability distribution
+- Price versus review activity
+- Host listing concentration
+- Geographic listing map
+
+## SQL
+
+The `sql/` directory contains SQL versions of the main analytical questions so the project demonstrates both Python and SQL workflows.
+
+## Dashboard Plan
+
+A professional dashboard should contain four views:
+
+**1. Market Overview** — KPIs, listings by neighbourhood and room-type mix.
+
+**2. Pricing Analysis** — average/median price, price distribution and neighbourhood comparison.
+
+**3. Availability & Reviews** — availability, review activity and listing engagement.
+
+**4. Geographic Analysis** — Albany listing map with neighbourhood and room-type filters.
 
 ## Reproducibility
 
-1. Download the current NYC listings data from Inside Airbnb.
-2. Save it as `data/listings.csv`.
-3. Install dependencies with `pip install -r requirements.txt`.
-4. Run the cleaning script.
-5. Run the EDA script.
-6. Review the generated tables and charts.
+1. Download the Albany dataset from Inside Airbnb.
+2. Place the raw files under `data/raw/`.
+3. Install dependencies:
 
-## Analyst Notes
+```bash
+pip install -r requirements.txt
+```
 
-This project separates **data preparation** from **analysis** so the workflow can be repeated when the source dataset changes. Extreme prices are retained for analytical integrity; the visualization script clips only the upper tail for one chart to improve readability.
+4. Run the cleaning pipeline.
+5. Run the exploratory analysis.
+6. Review generated tables and visualizations.
+7. Load the prepared data into Power BI/Tableau if building the interactive dashboard.
+
+## Important Data Integrity Rule
+
+The project uses **Albany, New York** data. It must not be described as New York City data. Keeping the repository title, README, dataset and conclusions aligned is essential for a credible portfolio.
 
 ## Limitations
 
-- Airbnb listing data is a market snapshot, not a complete record of New York housing or tourism activity.
-- Prices and availability change over time.
-- Listing presence does not guarantee actual booking activity.
-- Observational relationships should not automatically be interpreted as causal effects.
-- Review the source project's data policies and assumptions before making policy or commercial conclusions.
+- Airbnb data is a market snapshot and does not represent every accommodation in Albany.
+- Listing price is not the same as final booking price.
+- Listing availability does not guarantee actual occupancy.
+- Review counts are influenced by guest behaviour and listing age.
+- Correlation does not establish causation.
 
 ## Skills Demonstrated
 
-Python • Pandas • NumPy • Data Cleaning • Exploratory Data Analysis • Data Visualization • SQL • Data Quality Checks • Reproducible Analytics
+**Python · Pandas · NumPy · Data Cleaning · EDA · Data Visualization · SQL · Data Quality · Business Analysis · Reproducible Analytics**
 
 ## Author
 
-**Nithesh S**
-
+**Nithesh S**  
 GitHub: https://github.com/nitheshstech-dev
 
 ## License
